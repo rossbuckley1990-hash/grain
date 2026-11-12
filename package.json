@@ -1,0 +1,41 @@
+{
+  "name": "grain",
+  "version": "0.1.0",
+  "description": "Find where your prose is hiding. A zero-dependency linter for precision, not grammar.",
+  "type": "module",
+  "bin": {
+    "grain": "./bin/grain.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "demo": "node bin/grain.js examples/before.md",
+    "lint": "node bin/grain.js README.md"
+  },
+  "keywords": [
+    "writing",
+    "prose",
+    "linter",
+    "markdown",
+    "style",
+    "plain-english",
+    "nominalization",
+    "cli",
+    "documentation"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rossbuckley1990-hash/grain.git"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

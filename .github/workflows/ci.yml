@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x, 24.x]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Test
+        run: npm test
+
+      - name: Check smoke
+        run: node bin/grain.js examples/before.md --format concise
+
+      - name: After example must be clean
+        run: node bin/grain.js examples/after.md
+
+  prose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Lint the documentation with grain
+        run: node bin/grain.js README.md
+
+      - name: Report changed prose
+        if: github.event_name == 'pull_request'
+        run: node bin/grain.js --diff=origin/${{ github.base_ref }} --format concise --fail-on warn
