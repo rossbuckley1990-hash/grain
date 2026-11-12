@@ -21,8 +21,13 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Check smoke
-        run: node bin/grain.js examples/before.md --format concise
+      - name: Smoke test the demo document
+        run: |
+          out=$(node bin/grain.js examples/before.md --format concise --fail-on never)
+          echo "$out"
+          echo "$out" | grep -q '\[buried-verb\]'
+          echo "$out" | grep -q '\[throat-clear\]'
+          echo "$out" | grep -q '\[dead-weight\]'
 
       - name: After example must be clean
         run: node bin/grain.js examples/after.md
